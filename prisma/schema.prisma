@@ -11,18 +11,17 @@ datasource db {
 }
 
 model Totp {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
+  hash      String @unique
+  attempts  Int
+  active    Boolean
+  expiresAt DateTime
 
-  hash     String  @unique
-  attempts Int     @default(0)
-  active   Boolean @default(true)
+  @@index([expiresAt])
 }
 
 model User {
   id    String @unique @default(uuid())
   email String @unique
 
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
+  createdAt DateTime @default(now())
 }
